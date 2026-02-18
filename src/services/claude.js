@@ -241,7 +241,7 @@ function buildUserMessage(params) {
   return `Plan a ${activity} trip for ${groupSize} people ("${crewName}") from ${baseCity}.
 
 Dates: ${dateText}
-Region preference: ${regionMap[region] || regionMap.anywhere}
+Region preference: ${regionMap[region] || `Specific destination: ${region} — plan all 3 options at or near this exact location`}
 Budget: ${budgetMap[budget] || budgetMap.moderate}
 
 ACTIVITY-SPECIFIC CONDITIONS:
@@ -258,7 +258,7 @@ I need:
 - Gear rental availability and pricing
 - If any destination requires flying (8+ hrs drive), include a "flights" object with nearestAirport, estimatedRT cost, and memberFlights array [{name, airport, estimatedCost}]
 
-Give me 3 options: best conditions, closest to ${baseCity}, and best value. Make each option a genuinely different destination - not 3 lodges at the same place. Respond with ONLY valid JSON.${memberLocationText}${excludeNote}`;
+${regionMap[region] ? `Give me 3 options: best conditions, closest to ${baseCity}, and best value. Make each option a genuinely different destination - not 3 lodges at the same place.` : `Give me 3 options all at or near ${region}: best overall experience, best value, and a unique/alternative take. All 3 should be centered on this specific area.`} Respond with ONLY valid JSON.${memberLocationText}${excludeNote}`;
 }
 
 // Map city names to nearest airport codes
