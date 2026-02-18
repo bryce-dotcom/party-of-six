@@ -30,12 +30,15 @@ const PlanScreen = () => {
     ? activityGroups
     : activityGroups.filter(g => g.id === activityFilter);
 
+  const [customDestination, setCustomDestination] = useState('');
+
   const regions = [
     { id: 'utah', label: 'Utah', icon: '\u{1F3D4}\uFE0F' },
     { id: 'wyoming', label: 'Wyoming', icon: '\u{1F9AC}' },
     { id: 'idaho', label: 'Idaho', icon: '\u{1F332}' },
     { id: 'colorado', label: 'Colorado', icon: '\u26F0\uFE0F' },
     { id: 'anywhere', label: 'Anywhere < 6hrs', icon: '\u{1F5FA}\uFE0F' },
+    { id: 'custom', label: 'Custom', icon: '\u{1F4CD}' },
   ];
 
   const budgetOptions = [
@@ -88,7 +91,7 @@ const PlanScreen = () => {
       const result = await planTrip({
         activity: tripActivity,
         dates: planDates,
-        region: planRegion || 'anywhere',
+        region: planRegion === 'custom' ? customDestination : (planRegion || 'anywhere'),
         budget: planBudget,
         groupSize: currentCrew.members.length,
         crewName: currentCrew.name,
@@ -277,7 +280,7 @@ const PlanScreen = () => {
                   {regions.map(r => (
                     <button
                       key={r.id}
-                      onClick={() => setPlanRegion(r.id)}
+                      onClick={() => { setPlanRegion(r.id); if (r.id !== 'custom') setCustomDestination(''); }}
                       style={{ ...styles.regionButton, ...(planRegion === r.id ? styles.regionButtonActive : {}) }}
                     >
                       <span style={{fontSize: '16px'}}>{r.icon}</span>
@@ -285,6 +288,15 @@ const PlanScreen = () => {
                     </button>
                   ))}
                 </div>
+                {planRegion === 'custom' && (
+                  <input
+                    type="text"
+                    value={customDestination}
+                    onChange={e => setCustomDestination(e.target.value)}
+                    placeholder="e.g. Franklin Basin, Bear Lake..."
+                    style={styles.customDestinationInput}
+                  />
+                )}
 
                 {/* Budget Selection */}
                 <div style={shared.configLabel}>Budget per person</div>
@@ -834,7 +846,7 @@ const styles = {
   // Region Grid
   regionGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(5, 1fr)',
+    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '6px',
     marginBottom: '16px',
   },
@@ -854,6 +866,19 @@ const styles = {
     background: 'rgba(201,169,98,0.15)',
     borderColor: '#C9A962',
     color: '#C9A962',
+  },
+  customDestinationInput: {
+    width: '100%',
+    padding: '12px 14px',
+    background: 'rgba(255,255,255,0.05)',
+    border: '1px solid rgba(201,169,98,0.3)',
+    borderRadius: '8px',
+    color: '#E6EDF3',
+    fontSize: '13px',
+    marginBottom: '16px',
+    outline: 'none',
+    boxSizing: 'border-box',
+    fontFamily: 'inherit',
   },
 
   // Budget Grid
