@@ -35,10 +35,22 @@ export function AppProvider({ children }) {
   // Trips state
   const [allTrips, setAllTrips] = useState(defaultTrips);
 
+  // Update a trip by ID (merge updates into existing trip)
+  const updateTrip = (tripId, updates) => {
+    setAllTrips(prev => prev.map(t => t.id === tripId ? { ...t, ...updates } : t));
+  };
+
   // Derived state
   const currentCrew = crews[activeCrew];
   const crewTrips = allTrips.filter(t => t.crewId === activeCrew);
   const crewYears = [...new Set(crewTrips.map(t => t.year))].sort((a, b) => b - a);
+
+  // Current trip = most recent trip for active crew (sorted by year desc, then id desc)
+  const sortedCrewTrips = [...crewTrips].sort((a, b) => {
+    if (b.year !== a.year) return b.year - a.year;
+    return b.id.localeCompare(a.id);
+  });
+  const currentTrip = sortedCrewTrips.length > 0 ? sortedCrewTrips[0] : null;
 
   const filteredTrips = crewTrips.filter(trip => {
     const yearMatch = memoriesYear === 'all' || trip.year.toString() === memoriesYear;
@@ -95,6 +107,8 @@ export function AppProvider({ children }) {
 
     // Trips
     allTrips, setAllTrips,
+    updateTrip,
+    currentTrip,
 
     // Derived
     crews,

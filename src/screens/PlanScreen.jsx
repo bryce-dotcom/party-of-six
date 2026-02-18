@@ -146,6 +146,9 @@ const PlanScreen = () => {
       photos: [],
       stats: { estimatedCost: `$${option.costs?.perPerson || 0}/person`, driveTime: option.travel?.driveTime || '' },
       tripNotes: `AI-planned ${tripActivity} trip. ${option.tagline}`,
+      userPhotos: [],
+      heroPhotoIndex: 0,
+      gamesPlayed: [],
       // Full AI plan data so the crew can reference everything during the trip
       planData: {
         conditions: option.conditions || null,

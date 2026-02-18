@@ -33,6 +33,9 @@ export const defaultTrips = [
     ],
     stats: { miles: 127, maxElevation: '9,600 ft', conditions: 'Powder' },
     tripNotes: 'Best trip of the season. Tyler will never live down getting stuck in that creek bed. Already planning the return trip.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   {
     id: 'trip-002',
@@ -60,6 +63,9 @@ export const defaultTrips = [
     ],
     stats: { miles: 68, maxElevation: '9,200 ft', conditions: 'Packed Powder' },
     tripNotes: 'Quick day trip but totally worth it. Jake owes everyone lunch for the yard sale.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   {
     id: 'trip-003',
@@ -93,6 +99,9 @@ export const defaultTrips = [
     ],
     stats: { miles: 89, waterTemp: '76°F', conditions: 'Perfect' },
     tripNotes: 'Annual Powell trip never disappoints. Already planning next year.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   {
     id: 'trip-004',
@@ -122,6 +131,9 @@ export const defaultTrips = [
     ],
     stats: { miles: 112, maxElevation: '4,500 ft', conditions: 'Dry & Hot' },
     tripNotes: "Jake's roll was scary but made for a great story. He got the binki for his reaction.",
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   {
     id: 'trip-005',
@@ -150,6 +162,9 @@ export const defaultTrips = [
     ],
     stats: { miles: 94, maxElevation: '8,800 ft', conditions: 'Deep Powder' },
     tripNotes: 'The snowpack was absolutely insane this year. Best conditions we\'ve ever seen.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   // GIRLS TRIPS
   {
@@ -183,6 +198,9 @@ export const defaultTrips = [
     ],
     stats: { wineries: 12, bottles: 8, spaDays: 1 },
     tripNotes: 'The perfect girls getaway. Jessica really knows her wine. Rachel... not so much her singing.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   {
     id: 'trip-102',
@@ -212,6 +230,9 @@ export const defaultTrips = [
     ],
     stats: { treatments: 18, mimosas: 'countless', sunrises: 2 },
     tripNotes: 'We needed this. Nicole still owes us for the drama of missing her flight.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   {
     id: 'trip-103',
@@ -243,6 +264,9 @@ export const defaultTrips = [
     ],
     stats: { bars: 11, boots: 6, tears: 'many' },
     tripNotes: 'Best bachelorette ever. Nashville was made for us.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   // FAMILY TRIPS
   {
@@ -277,6 +301,9 @@ export const defaultTrips = [
     ],
     stats: { miles: 340, wildlife: 12, smores: 47 },
     tripNotes: 'The trip that started Lily\'s love of camping. Emma was an amazing navigator.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   {
     id: 'trip-202',
@@ -308,6 +335,9 @@ export const defaultTrips = [
     ],
     stats: { rides: 34, characters: 8, churros: 12 },
     tripNotes: 'Christmas at Disney is truly magical. Worth every penny.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
   // COUPLES TRIPS
   {
@@ -337,6 +367,9 @@ export const defaultTrips = [
     ],
     stats: { runs: 42, drinks: 'several', fondue: '1 amazing' },
     tripNotes: 'The perfect couples ski trip. Need to do this every year.',
+    userPhotos: [],
+    heroPhotoIndex: 0,
+    gamesPlayed: [],
   },
 ];
 
