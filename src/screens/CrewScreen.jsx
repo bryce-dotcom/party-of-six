@@ -3,12 +3,14 @@ import { useApp } from '../context/AppContext.jsx';
 import { shared } from '../styles/shared.js';
 import MemberAvatar from '../components/MemberAvatar.jsx';
 import MemberEditor from '../components/MemberEditor.jsx';
+import CrewEditor from '../components/CrewEditor.jsx';
 
 const CrewScreen = () => {
   const { currentCrew, activeCrew } = useApp();
   const [editingMember, setEditingMember] = useState(null);
   const [isNewMember, setIsNewMember] = useState(false);
   const [pressedId, setPressedId] = useState(null);
+  const [showCrewEditor, setShowCrewEditor] = useState(false);
 
   const handleInvite = () => {
     setEditingMember({
@@ -29,16 +31,36 @@ const CrewScreen = () => {
 
   return (
     <div style={shared.screen}>
+      {/* Crew Hero Photo */}
+      {currentCrew.heroPhoto && (
+        <div style={styles.heroSection}>
+          <img src={currentCrew.heroPhoto} alt={currentCrew.name} style={styles.heroImg} />
+          <div style={styles.heroOverlay} />
+        </div>
+      )}
+
       <div style={styles.crewHeader}>
-        <h1 style={styles.crewTitle}>{currentCrew.name}</h1>
+        <div style={styles.crewTitleRow}>
+          <h1 style={styles.crewTitle}>{currentCrew.name}</h1>
+          <button style={styles.editCrewBtn} onClick={() => setShowCrewEditor(true)}>
+            {'\u270F\uFE0F'}
+          </button>
+        </div>
         <button style={styles.inviteButton} onClick={handleInvite}>+ Invite</button>
       </div>
 
-      {currentCrew.homeBase && (
-        <div style={{padding: '0 16px 12px', display: 'flex', alignItems: 'center', gap: '6px'}}>
-          <span style={{fontSize: '12px'}}>📍</span>
-          <span style={{fontSize: '12px', color: '#8B949E'}}>Home base:</span>
-          <span style={{fontSize: '12px', color: '#C9A962', fontWeight: '600'}}>{currentCrew.homeBase}</span>
+      {(currentCrew.tagline || currentCrew.homeBase) && (
+        <div style={styles.crewMeta}>
+          {currentCrew.tagline && (
+            <span style={styles.crewTagline}>{currentCrew.tagline}</span>
+          )}
+          {currentCrew.homeBase && (
+            <div style={styles.homeBaseRow}>
+              <span style={{fontSize: '12px'}}>{'\uD83D\uDCCD'}</span>
+              <span style={{fontSize: '12px', color: '#8B949E'}}>Home base:</span>
+              <span style={{fontSize: '12px', color: '#C9A962', fontWeight: '600'}}>{currentCrew.homeBase}</span>
+            </div>
+          )}
         </div>
       )}
 
@@ -95,13 +117,67 @@ const CrewScreen = () => {
           onClose={() => { setEditingMember(null); setIsNewMember(false); }}
         />
       )}
+
+      {showCrewEditor && (
+        <CrewEditor
+          crew={currentCrew}
+          isNew={false}
+          onClose={() => setShowCrewEditor(false)}
+        />
+      )}
     </div>
   );
 };
 
 const styles = {
+  heroSection: {
+    height: '140px',
+    borderRadius: '12px',
+    overflow: 'hidden',
+    position: 'relative',
+    marginBottom: '4px',
+  },
+  heroImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
+  heroOverlay: {
+    position: 'absolute',
+    inset: 0,
+    background: 'linear-gradient(180deg, transparent 40%, rgba(13,13,13,0.8) 100%)',
+  },
   crewHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0' },
+  crewTitleRow: { display: 'flex', alignItems: 'center', gap: '10px' },
   crewTitle: { fontSize: '24px', fontWeight: '300', margin: 0, letterSpacing: '2px', fontFamily: "'Playfair Display', Georgia, serif" },
+  editCrewBtn: {
+    width: '28px',
+    height: '28px',
+    borderRadius: '50%',
+    background: 'rgba(201,169,98,0.15)',
+    border: '1px solid rgba(201,169,98,0.3)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '11px',
+    cursor: 'pointer',
+  },
+  crewMeta: {
+    paddingBottom: '12px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+  },
+  crewTagline: {
+    fontSize: '13px',
+    color: '#8B949E',
+    fontStyle: 'italic',
+  },
+  homeBaseRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  },
   inviteButton: {
     padding: '8px 16px',
     background: 'transparent',

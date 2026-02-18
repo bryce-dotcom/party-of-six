@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { shared } from '../styles/shared.js';
 import Logo from '../components/Logo.jsx';
 import CrewSelector from '../components/CrewSelector.jsx';
 import MemberAvatar from '../components/MemberAvatar.jsx';
+import CrewEditor from '../components/CrewEditor.jsx';
 
 const HomeScreen = () => {
-  const { currentCrew, crewTrips, setActiveTab, setShowBookPreview, setSelectedTrip } = useApp();
+  const { currentCrew, activeCrew, crewTrips, setActiveTab, setShowBookPreview, setSelectedTrip } = useApp();
+  const [showCrewEditor, setShowCrewEditor] = useState(false);
+
+  const heroStyle = currentCrew.heroPhoto
+    ? {
+        ...styles.heroSection,
+        backgroundImage: `linear-gradient(180deg, rgba(13,13,13,0.7) 0%, rgba(13,13,13,0.85) 100%), url(${currentCrew.heroPhoto})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }
+    : styles.heroSection;
 
   return (
     <div style={shared.screen}>
       {/* Hero with Main Party of Six Logo */}
-      <div style={styles.heroSection}>
+      <div style={heroStyle}>
+        <div style={styles.heroTopRow}>
+          <div style={{flex: 1}} />
+          <button style={styles.editCrewBtn} onClick={() => setShowCrewEditor(true)}>
+            {'\u270F\uFE0F'}
+          </button>
+        </div>
         <Logo />
         <CrewSelector />
         <div style={styles.quickStats}>
@@ -33,10 +50,10 @@ const HomeScreen = () => {
       {/* Quick Actions */}
       <div style={styles.quickActions}>
         <button style={styles.primaryAction} onClick={() => setActiveTab('plan')}>
-          <span>🚀</span><span>Plan Trip</span>
+          <span>{'\uD83D\uDE80'}</span><span>Plan Trip</span>
         </button>
         <button style={styles.secondaryAction} onClick={() => setShowBookPreview(true)}>
-          <span>📖</span><span>Create Book</span>
+          <span>{'\uD83D\uDCD6'}</span><span>Create Book</span>
         </button>
       </div>
 
@@ -56,8 +73,8 @@ const HomeScreen = () => {
                 <h3 style={styles.tripCardName}>{trip.name}</h3>
                 <p style={styles.tripCardDate}>{trip.date}</p>
                 <div style={styles.tripCardMeta}>
-                  <span>{trip.photos.length} 📷</span>
-                  <span>{trip.awards.length} 🏆</span>
+                  <span>{trip.photos.length} {'\uD83D\uDCF7'}</span>
+                  <span>{trip.awards.length} {'\uD83C\uDFC6'}</span>
                 </div>
               </div>
             </div>
@@ -78,6 +95,14 @@ const HomeScreen = () => {
           ))}
         </div>
       </div>
+
+      {showCrewEditor && (
+        <CrewEditor
+          crew={currentCrew}
+          isNew={false}
+          onClose={() => setShowCrewEditor(false)}
+        />
+      )}
     </div>
   );
 };
@@ -89,6 +114,24 @@ const styles = {
     borderRadius: '16px',
     background: 'linear-gradient(180deg, rgba(26,26,26,0.9) 0%, rgba(13,13,13,0.95) 100%)',
     border: '1px solid rgba(201,169,98,0.15)',
+    position: 'relative',
+  },
+  heroTopRow: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginBottom: '-8px',
+  },
+  editCrewBtn: {
+    width: '30px',
+    height: '30px',
+    borderRadius: '50%',
+    background: 'rgba(201,169,98,0.15)',
+    border: '1px solid rgba(201,169,98,0.3)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '12px',
+    cursor: 'pointer',
   },
   quickStats: { display: 'flex', justifyContent: 'center', gap: '40px', marginTop: '20px' },
   quickStat: { display: 'flex', flexDirection: 'column', alignItems: 'center' },

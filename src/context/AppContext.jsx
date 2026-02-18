@@ -43,6 +43,21 @@ export function AppProvider({ children }) {
     setAllTrips(prev => prev.map(t => t.id === tripId ? { ...t, ...updates } : t));
   };
 
+  // Crew-level mutations
+  const updateCrew = (crewId, updates) => {
+    setCrewsData(prev => ({
+      ...prev,
+      [crewId]: { ...prev[crewId], ...updates },
+    }));
+  };
+
+  const addCrew = (newCrew) => {
+    setCrewsData(prev => ({
+      ...prev,
+      [newCrew.id]: newCrew,
+    }));
+  };
+
   // Crew member mutations
   const updateMember = (crewId, memberId, updates) => {
     setCrewsData(prev => ({
@@ -186,6 +201,8 @@ export function AppProvider({ children }) {
 
     // Crew mutations
     crewsData,
+    updateCrew,
+    addCrew,
     updateMember,
     addMember,
     removeMember,

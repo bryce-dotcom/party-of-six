@@ -9,6 +9,7 @@ export const crews = {
     tagline: 'Send it or go home',
     color: '#C9A962',
     homeBase: 'Lehi, UT',
+    heroPhoto: null,
     members: [
       { id: 1, name: 'Bryce', avatar: '🏔️', role: 'Trip Captain', birthday: 'Mar 15', awards: ['🏆', '🎯', '🧭'], binki: 0, tripsAttended: 23, city: 'Highland, UT', airport: 'SLC', profilePhoto: null },
       { id: 2, name: 'Jake', avatar: '🎿', role: 'Gear Master', birthday: 'Jul 22', awards: ['🔧', '💥'], binki: 2, tripsAttended: 19, city: 'Mapleton, UT', airport: 'SLC', profilePhoto: null },
@@ -27,6 +28,7 @@ export const crews = {
     tagline: 'Sip, explore, repeat',
     color: '#D4A5A5',
     homeBase: 'Draper, UT',
+    heroPhoto: null,
     members: [
       { id: 1, name: 'Sarah', avatar: '💅', role: 'Chief Organizer', birthday: 'Apr 12', awards: ['📋', '🏆'], binki: 1, tripsAttended: 15, city: 'Draper, UT', airport: 'SLC', profilePhoto: null },
       { id: 2, name: 'Emily', avatar: '📸', role: 'Photographer', birthday: 'Jun 3', awards: ['📸', '✨'], binki: 0, tripsAttended: 14, city: 'Sandy, UT', airport: 'SLC', profilePhoto: null },
@@ -45,6 +47,7 @@ export const crews = {
     tagline: 'Adventure is a family affair',
     color: '#7EB5A6',
     homeBase: 'Highland, UT',
+    heroPhoto: null,
     members: [
       { id: 1, name: 'Dad', avatar: '👨', role: 'Trip Lead', birthday: 'Mar 15', awards: ['🏆', '🚗', '🧭'], binki: 0, tripsAttended: 31, city: 'Highland, UT', airport: 'SLC', profilePhoto: null },
       { id: 2, name: 'Mom', avatar: '👩', role: 'Planner', birthday: 'May 22', awards: ['📋', '❤️', '👩‍🍳'], binki: 0, tripsAttended: 31, city: 'Highland, UT', airport: 'SLC', profilePhoto: null },
@@ -62,6 +65,7 @@ export const crews = {
     tagline: 'Double the fun',
     color: '#B8A9C9',
     homeBase: 'Lehi, UT',
+    heroPhoto: null,
     members: [
       { id: 1, name: 'Us', avatar: '💑', role: 'Hosts', birthday: 'Mar 15', awards: ['🏠', '🏆'], binki: 1, tripsAttended: 8, city: 'Highland, UT', airport: 'SLC', profilePhoto: null },
       { id: 2, name: 'Jake & Lisa', avatar: '💑', role: 'Adventure Duo', birthday: 'Jul 22', awards: ['🚀'], binki: 2, tripsAttended: 7, city: 'Mapleton, UT', airport: 'SLC', profilePhoto: null },

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { shared } from '../styles/shared.js';
+import CrewEditor from './CrewEditor.jsx';
 
 const CrewSwitcher = () => {
-  const { crewsData, activeCrew, setActiveCrew, setShowCrewSwitcher } = useApp();
+  const { crewsData, activeCrew, setActiveCrew, setShowCrewSwitcher, setActiveTab } = useApp();
+  const [showCrewEditor, setShowCrewEditor] = useState(false);
 
   return (
     <div style={shared.modalOverlay} onClick={() => setShowCrewSwitcher(false)}>
@@ -20,28 +22,41 @@ const CrewSwitcher = () => {
               }}
               onClick={() => {
                 setActiveCrew(crew.id);
+                setActiveTab('crew');
                 setShowCrewSwitcher(false);
               }}
             >
-              <span style={styles.crewOptionIcon}>{crew.icon}</span>
+              {crew.heroPhoto ? (
+                <img src={crew.heroPhoto} alt={crew.name} style={styles.crewOptionPhoto} />
+              ) : (
+                <span style={styles.crewOptionIcon}>{crew.icon}</span>
+              )}
               <div style={styles.crewOptionInfo}>
                 <span style={styles.crewOptionName}>{crew.name}</span>
                 <span style={styles.crewOptionTagline}>{crew.tagline}</span>
                 <span style={styles.crewOptionStats}>
-                  {crew.stats.totalTrips} trips • {crew.members.length} members
+                  {crew.stats.totalTrips} trips {'\u2022'} {crew.members.length} members
                 </span>
               </div>
               <span style={styles.crewOptionEstablished}>{crew.established}</span>
             </button>
           ))}
         </div>
-        <button style={styles.addCrewButton}>
+        <button style={styles.addCrewButton} onClick={() => setShowCrewEditor(true)}>
           <span>+</span> Create New Crew
         </button>
         <button style={shared.closeButton} onClick={() => setShowCrewSwitcher(false)}>
           Cancel
         </button>
       </div>
+
+      {showCrewEditor && (
+        <CrewEditor
+          crew={null}
+          isNew={true}
+          onClose={() => setShowCrewEditor(false)}
+        />
+      )}
     </div>
   );
 };
@@ -60,7 +75,14 @@ const styles = {
     textAlign: 'left',
   },
   crewOptionActive: { background: 'rgba(201,169,98,0.1)' },
-  crewOptionIcon: { fontSize: '32px' },
+  crewOptionIcon: { fontSize: '32px', flexShrink: 0 },
+  crewOptionPhoto: {
+    width: '40px',
+    height: '40px',
+    borderRadius: '10px',
+    objectFit: 'cover',
+    flexShrink: 0,
+  },
   crewOptionInfo: { flex: 1 },
   crewOptionName: { display: 'block', fontSize: '15px', fontWeight: '600', marginBottom: '2px' },
   crewOptionTagline: { display: 'block', fontSize: '11px', color: '#8B949E', marginBottom: '4px' },
