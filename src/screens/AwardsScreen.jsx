@@ -2,6 +2,7 @@ import React from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { awards, getAwardBorderColor } from '../data/awards.js';
 import { shared } from '../styles/shared.js';
+import MemberAvatar from '../components/MemberAvatar.jsx';
 
 const AwardsScreen = () => {
   const { currentCrew, setSelectedAward, setShowAwardModal } = useApp();
@@ -22,7 +23,7 @@ const AwardsScreen = () => {
           {[...currentCrew.members].sort((a, b) => b.binki - a.binki).map((member, idx) => (
             <div key={member.id} style={styles.binkiRow}>
               <span style={styles.binkiRank}>#{idx + 1}</span>
-              <span style={styles.binkiAvatar}>{member.avatar}</span>
+              <MemberAvatar member={member} size={20} />
               <span style={styles.binkiName}>{member.name}</span>
               <span style={styles.binkiCount}>
                 {member.binki > 0 ? Array(Math.min(member.binki, 5)).fill('👶').join('') : '-'}

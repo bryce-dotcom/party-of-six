@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext.jsx';
 import { shared } from '../styles/shared.js';
+import MemberAvatar from './MemberAvatar.jsx';
 
 const condLabelMap = {
   freshSnow: 'Fresh Snow', baseDepth: 'Base Depth', snowpack: 'Snowpack', avalanche: 'Avalanche',
@@ -16,7 +17,7 @@ const condLabelMap = {
 const longCondFields = ['forecast', 'specialNotes', 'trailStatus', 'regulations', 'launchAccess'];
 
 const TripDetail = ({ trip }) => {
-  const { setSelectedTrip } = useApp();
+  const { setSelectedTrip, getMemberByName } = useApp();
   const pd = trip.planData;
 
   return (
@@ -37,9 +38,15 @@ const TripDetail = ({ trip }) => {
         <div style={styles.tripDetailSection}>
           <h3 style={styles.tripDetailSectionTitle}>Crew</h3>
           <div style={styles.tripDetailAttendees}>
-            {trip.attendees.map((name, idx) => (
-              <span key={idx} style={styles.tripDetailAttendee}>{name}</span>
-            ))}
+            {trip.attendees.map((name, idx) => {
+              const member = getMemberByName(name);
+              return (
+                <span key={idx} style={styles.tripDetailAttendee}>
+                  {member && <MemberAvatar member={member} size={18} style={{marginRight: 6}} />}
+                  {name}
+                </span>
+              );
+            })}
           </div>
         </div>
 
@@ -225,9 +232,12 @@ const TripDetail = ({ trip }) => {
               {trip.awards.map((a, idx) => (
                 <div key={idx} style={styles.tripDetailAward}>
                   <span style={styles.tripDetailAwardIcon}>{a.award}</span>
-                  <div>
-                    <span style={styles.tripDetailAwardName}>{a.name}</span>
-                    <span style={styles.tripDetailAwardRecipient}>→ {a.recipient}</span>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+                    {(() => { const m = getMemberByName(a.recipient); return m ? <MemberAvatar member={m} size={18} /> : null; })()}
+                    <div>
+                      <span style={styles.tripDetailAwardName}>{a.name}</span>
+                      <span style={styles.tripDetailAwardRecipient}>{'\u2192'} {a.recipient}</span>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -302,7 +312,7 @@ const styles = {
   tripDetailSection: { padding: '16px 24px', borderTop: '1px solid rgba(255,255,255,0.05)' },
   tripDetailSectionTitle: { fontSize: '11px', color: '#C9A962', textTransform: 'uppercase', letterSpacing: '1.5px', margin: '0 0 12px' },
   tripDetailAttendees: { display: 'flex', flexWrap: 'wrap', gap: '8px' },
-  tripDetailAttendee: { padding: '6px 12px', background: 'rgba(255,255,255,0.05)', borderRadius: '16px', fontSize: '12px' },
+  tripDetailAttendee: { padding: '6px 12px', background: 'rgba(255,255,255,0.05)', borderRadius: '16px', fontSize: '12px', display: 'inline-flex', alignItems: 'center' },
   tripDetailHighlights: { margin: 0, padding: 0, listStyle: 'none' },
   tripDetailHighlight: { fontSize: '13px', color: '#C9D1D9', marginBottom: '6px' },
   tripDetailAwards: { display: 'flex', flexDirection: 'column', gap: '8px' },

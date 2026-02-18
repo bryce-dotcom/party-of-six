@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import PhotoUploader from './PhotoUploader.jsx';
 import GamePicker from './GamePicker.jsx';
+import MemberAvatar from './MemberAvatar.jsx';
+import { useApp } from '../context/AppContext.jsx';
 
 const HeroTripSection = ({ trip, onUpdateTrip }) => {
+  const { getMemberByName } = useApp();
   const [showGamePicker, setShowGamePicker] = useState(false);
 
   const userPhotos = trip.userPhotos || [];
@@ -104,15 +107,19 @@ const HeroTripSection = ({ trip, onUpdateTrip }) => {
         <div style={styles.section}>
           <h3 style={styles.sectionTitle}>{'\uD83C\uDFC6'} Awards</h3>
           <div style={styles.awardsList}>
-            {trip.awards.map((a, i) => (
-              <div key={i} style={styles.awardItem}>
-                <span style={styles.awardIcon}>{a.award}</span>
-                <div style={styles.awardInfo}>
-                  <span style={styles.awardName}>{a.name}</span>
-                  <span style={styles.awardRecipient}>{a.recipient}</span>
+            {trip.awards.map((a, i) => {
+              const member = getMemberByName(a.recipient);
+              return (
+                <div key={i} style={styles.awardItem}>
+                  <span style={styles.awardIcon}>{a.award}</span>
+                  {member && <MemberAvatar member={member} size={22} />}
+                  <div style={styles.awardInfo}>
+                    <span style={styles.awardName}>{a.name}</span>
+                    <span style={styles.awardRecipient}>{a.recipient}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

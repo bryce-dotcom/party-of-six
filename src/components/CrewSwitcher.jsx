@@ -3,14 +3,14 @@ import { useApp } from '../context/AppContext.jsx';
 import { shared } from '../styles/shared.js';
 
 const CrewSwitcher = () => {
-  const { crews, activeCrew, setActiveCrew, setShowCrewSwitcher } = useApp();
+  const { crewsData, activeCrew, setActiveCrew, setShowCrewSwitcher } = useApp();
 
   return (
     <div style={shared.modalOverlay} onClick={() => setShowCrewSwitcher(false)}>
       <div style={shared.modal} onClick={e => e.stopPropagation()}>
         <h2 style={shared.modalTitle}>Switch Crew</h2>
         <div style={styles.crewList}>
-          {Object.values(crews).map(crew => (
+          {Object.values(crewsData).map(crew => (
             <button
               key={crew.id}
               style={{

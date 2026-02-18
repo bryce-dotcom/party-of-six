@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { games, gameCategories } from '../data/games.js';
 import { shared } from '../styles/shared.js';
+import { useApp } from '../context/AppContext.jsx';
+import MemberAvatar from './MemberAvatar.jsx';
 
 const GamePicker = ({ attendees, onGameAdded, onClose }) => {
+  const { getMemberByName } = useApp();
   const [step, setStep] = useState('pick'); // 'pick' | 'winner'
   const [selectedGame, setSelectedGame] = useState(null);
   const [category, setCategory] = useState('all');
@@ -71,15 +74,19 @@ const GamePicker = ({ attendees, onGameAdded, onClose }) => {
             </h2>
             <p style={styles.winnerPrompt}>Who won?</p>
             <div style={styles.winnerGrid}>
-              {attendees.map(name => (
-                <button
-                  key={name}
-                  style={styles.winnerBtn}
-                  onClick={() => handleSelectWinner(name)}
-                >
-                  {name}
-                </button>
-              ))}
+              {attendees.map(name => {
+                const member = getMemberByName(name);
+                return (
+                  <button
+                    key={name}
+                    style={styles.winnerBtn}
+                    onClick={() => handleSelectWinner(name)}
+                  >
+                    {member && <MemberAvatar member={member} size={24} />}
+                    <span>{name}</span>
+                  </button>
+                );
+              })}
               <button
                 style={{ ...styles.winnerBtn, borderColor: 'rgba(255,255,255,0.1)', color: '#8B949E' }}
                 onClick={() => handleSelectWinner('Tie')}
@@ -173,6 +180,10 @@ const styles = {
     fontWeight: '500',
     cursor: 'pointer',
     textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '4px',
   },
   backBtn: {
     width: '100%',

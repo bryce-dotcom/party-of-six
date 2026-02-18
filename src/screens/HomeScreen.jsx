@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext.jsx';
 import { shared } from '../styles/shared.js';
 import Logo from '../components/Logo.jsx';
 import CrewSelector from '../components/CrewSelector.jsx';
+import MemberAvatar from '../components/MemberAvatar.jsx';
 
 const HomeScreen = () => {
   const { currentCrew, crewTrips, setActiveTab, setShowBookPreview, setSelectedTrip } = useApp();
@@ -70,7 +71,7 @@ const HomeScreen = () => {
         <div style={styles.birthdayList}>
           {currentCrew.members.slice(0, 3).map(member => (
             <div key={member.id} style={styles.birthdayItem}>
-              <span style={styles.birthdayAvatar}>{member.avatar}</span>
+              <MemberAvatar member={member} size={24} />
               <span style={styles.birthdayName}>{member.name}</span>
               <span style={styles.birthdayDate}>{member.birthday}</span>
             </div>
