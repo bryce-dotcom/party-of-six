@@ -31,6 +31,8 @@ const PlanScreen = () => {
     : activityGroups.filter(g => g.id === activityFilter);
 
   const [customDestination, setCustomDestination] = useState('');
+  const [customStartDate, setCustomStartDate] = useState('');
+  const [customEndDate, setCustomEndDate] = useState('');
 
   const regions = [
     { id: 'utah', label: 'Utah', icon: '\u{1F3D4}\uFE0F' },
@@ -59,7 +61,15 @@ const PlanScreen = () => {
     sun.setDate(fri.getDate() + 2);
     const fmt = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const fmtY = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    return planDates === 'custom' ? 'Flexible Dates' : `${fmt(fri)} - ${fmtY(sun)}`;
+    if (planDates === 'custom') {
+      if (customStartDate && customEndDate) {
+        const s = new Date(customStartDate + 'T00:00:00');
+        const e = new Date(customEndDate + 'T00:00:00');
+        return `${fmt(s)} - ${fmtY(e)}`;
+      }
+      return 'Custom Dates';
+    }
+    return `${fmt(fri)} - ${fmtY(sun)}`;
   };
 
   const handleFindOptions = async () => {
@@ -90,7 +100,9 @@ const PlanScreen = () => {
     try {
       const result = await planTrip({
         activity: tripActivity,
-        dates: planDates,
+        dates: planDates === 'custom' && customStartDate && customEndDate
+          ? `${customStartDate} to ${customEndDate}`
+          : planDates,
         region: planRegion === 'custom' ? customDestination : (planRegion || 'anywhere'),
         budget: planBudget,
         groupSize: currentCrew.members.length,
@@ -266,13 +278,36 @@ const PlanScreen = () => {
                   ].map(d => (
                     <button
                       key={d.id}
-                      onClick={() => setPlanDates(d.id)}
+                      onClick={() => { setPlanDates(d.id); if (d.id !== 'custom') { setCustomStartDate(''); setCustomEndDate(''); } }}
                       style={{ ...styles.dateButton, ...(planDates === d.id ? styles.dateButtonActive : {}) }}
                     >
                       {d.label}
                     </button>
                   ))}
                 </div>
+                {planDates === 'custom' && (
+                  <div style={styles.customDateRow}>
+                    <div style={styles.customDateField}>
+                      <label style={styles.customDateLabel}>Start</label>
+                      <input
+                        type="date"
+                        value={customStartDate}
+                        onChange={e => setCustomStartDate(e.target.value)}
+                        style={styles.customDateInput}
+                      />
+                    </div>
+                    <div style={styles.customDateField}>
+                      <label style={styles.customDateLabel}>End</label>
+                      <input
+                        type="date"
+                        value={customEndDate}
+                        onChange={e => setCustomEndDate(e.target.value)}
+                        min={customStartDate}
+                        style={styles.customDateInput}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 {/* Region Selection */}
                 <div style={shared.configLabel}>Where do you want to go?</div>
@@ -836,6 +871,33 @@ const styles = {
     color: '#E6EDF3',
     fontSize: '12px',
     cursor: 'pointer',
+  },
+  customDateRow: {
+    display: 'flex',
+    gap: '10px',
+    marginBottom: '16px',
+  },
+  customDateField: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+  },
+  customDateLabel: {
+    fontSize: '10px',
+    color: '#8B949E',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  customDateInput: {
+    padding: '10px 12px',
+    background: 'rgba(255,255,255,0.05)',
+    border: '1px solid rgba(201,169,98,0.3)',
+    borderRadius: '8px',
+    color: '#E6EDF3',
+    fontSize: '13px',
+    fontFamily: 'inherit',
+    colorScheme: 'dark',
   },
   dateButtonActive: {
     background: 'rgba(201,169,98,0.15)',
